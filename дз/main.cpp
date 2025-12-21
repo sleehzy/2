@@ -1,51 +1,82 @@
 #include <iostream>
-
-
-
-
-
-void findRoots(int a, int b, int c)
+using namespace std;
+bool vys(int year)
 {
-    setlocale(LC_ALL, "ru");
-
-    if (a == 0) 
-    {
-        std::cout << "неверно";
-        return;
-    }
-
-    int d = b * b - 4 * a * c;
-    double sqrt_val = sqrt(abs(d));
-
-    if (d > 0) 
-    {
-        std::cout << "Корни реальны и отличаются друг от друга ";
-        std::cout << (double)(-b + sqrt_val) / (2 * a) << " "
-            << (double)(-b - sqrt_val) / (2 * a);
-    }
-    else if (d == 0) 
-    {
-        std::cout << "Корни реальны и одинаковы ";
-        std::cout << -(double)b / (2 * a);
-    }
-
-   
-    else 
-    {
-        std::cout << "Корни сложные ";
-        std::cout << -(double)b / (2 * a) << " + i"
-            << sqrt_val / (2 * a) << " "
-            << -(double)b / (2 * a) << " - i"
-            << sqrt_val / (2 * a);
-    }
+    bool res = false;
+    if (year % 4 == 0)
+        res = true;
+    if (year % 100 == 0)
+        res = false;
+    if (year % 400 == 0)
+        res = true;
+    return res;
 }
+int date(int d, int m, int y)
+{
+    int k = d;
+    if (vys(y) && (m > 2))
+        k += y * 366;
+    else k += y * 365;
+    switch (m - 1)
+    {
+    case 12: k += 31;
+    case 11: k += 30;
+    case 10: k += 31;
+    case  9: k += 30;
+    case  8: k += 31;
+    case  7: k += 31;
+    case  6: k += 30;
+    case  5: k += 31;
+    case  4: k += 30;
+    case  3: k += 31;
+    case  2: k += 28;
+    case  1: k += 31;
+    }
+    return k;
+}
+int difference(int d1, int d2, int m1, int m2, int y1, int y2)
+{
+    int k = date(d2, m2, y2) - date(d1, m1, y1);
+    return k;
+}
+
+double average(int a[], int n)
+{
+    // Find sum of array element
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+        sum += a[i];
+
+    return (double)sum / n;
+}
+
 
 
 int main()
 {
-    int a = 1, b = -7, c = 12;
+    setlocale(LC_ALL,"ru");
+    std::cout << "\t\t\t\tпервое задание: \n\n\n\n\n";
+    int d1, d2, m1, m2, y1, y2;
+    cout << "1 день: ";
+    cin >> d2;
+    cout << "1 месяц: ";
+    cin >> m2;
+    cout << "1 год: ";
+    cin >> y2;
+    cout << "2 день: ";
+    cin >> d1;
+    cout << "2 месяц: ";
+    cin >> m1;
+    cout << "2 год: ";
+    cin >> y1;
+    cout << "различия между этими двумя датами " << difference(d1, d2, m1, m2, y1, y2) << " дней\n";
+    system("PAUSE");
 
-    
-    findRoots(a, b, c);
+    std::cout << "\t\t\t\tвторое задание: \n\n\n\n\n";
+    int arr[] = { 10, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    cout << average(arr, n);
+
     return 0;
 }
